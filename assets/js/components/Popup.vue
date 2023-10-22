@@ -18,22 +18,22 @@
         <SoundButton
           @mouseover="buttonOnHover(index)"
           @mouseleave="buttonOnLeave(index)"
-          :class="{ 'selected-icon': iconSelected(index) }"
+          :class="{ 'selected-icon': sound.selected }"
           class="sound-button"
           v-for="(sound, index) in sounds"
           :key="index"
         >
           <div
-            class="sound-button-wrapper"
-            @click="setSelected(index)"
+            class="centralized"
+            @click="setSelected(sound)"
           >
-            <component class="icon-size" :is="sound.icon" />
+            <component class="icon-size" :is="getSoundIcon(sound)" />
           </div>
 
           <Transition>
-            <div class="volume-bar-container" v-if="shouldShowVolume(index)">
+            <div class="volume-bar-container" v-if="shouldShowVolume(index, sound)">
               <div class="volume-bar-wrapper">
-                <input v-model="selected_sounds.find(e => e.item_index === index).volume" type="range" min="0" max="100" />
+                <input @input="changeVolume($event, sound)" v-model="sound.volume" type="range" min="0" max="100" />
               </div>
             </div>
           </Transition>
@@ -63,9 +63,13 @@
 </template>
 
 <script>
-import { shallowRef } from 'vue'
+  import { supabase } from '../supabaseClient';
+
+  import { shallowRef } from 'vue'
 
   import SoundButton from './SoundButton.vue'
+  import Loader from './Loader.vue'
+
   import MusicHearthIcon from './icons/MusicHearth.vue'
   import SunIcon from './icons/Sun.vue'
   import MoonIcon from './icons/Moon.vue'
@@ -89,38 +93,39 @@ import { shallowRef } from 'vue'
   import GitHubIcon from './icons/GitHub.vue'
   import UserIcon from './icons/User.vue'
 
+
   export default {
     components: {
       SoundButton,
       MusicHearthIcon,
       GitHubIcon,
       UserIcon,
+      Loader,
     },
 
     data() {
       return {
         dark_theme: false,
-        selected_sounds: [],
         button_on_hover: null,
         sounds: [
-          { icon: shallowRef(CloudRainIcon) },
-          { icon: shallowRef(CloudThunderIcon) },
-          { icon: shallowRef(DropsIcon) },
-          { icon: shallowRef(WindIcon) },
-          { icon: shallowRef(BeachIcon) },
-          { icon: shallowRef(JollyRogerIcon) },
-          { icon: shallowRef(TreeIcon) },
-          { icon: shallowRef(LeafIcon) },
-          { icon: shallowRef(CampfireIcon) },
-          { icon: shallowRef(CaveIcon) },
-          { icon: shallowRef(MoonIcon) },
-          { icon: shallowRef(CoffeIcon) },
-          { icon: shallowRef(TrainIcon) },
-          { icon: shallowRef(PlaneIcon) },
-          { icon: shallowRef(SchoolIcon) },
-          { icon: shallowRef(ShipIcon) },
-          { icon: shallowRef(TentIcon) },
-          { icon: shallowRef(ToriiIcon) },
+          { icon: shallowRef(CloudRainIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(CloudThunderIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(DropsIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(WindIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(BeachIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(JollyRogerIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(TreeIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(LeafIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(CampfireIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(CaveIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(MoonIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(CoffeIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(TrainIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(PlaneIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(SchoolIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(ShipIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(TentIcon), selected: false, loading: false, audio: null, },
+          { icon: shallowRef(ToriiIcon), selected: false, loading: false, audio: null, name: 'tokyo' },
         ]
       }
     },
@@ -150,17 +155,33 @@ import { shallowRef } from 'vue'
         document.body.className = '';
       },
 
-      setSelected(index) {
-        const indexInArray = this.selected_sounds.map(e => e.item_index).indexOf(index);
+      async setSelected(sound) {
+        if (! sound.loading) {
+          if (! sound.selected) {
+             sound.selected = true;
 
-        if (indexInArray === -1) {
-          return this.selected_sounds.push({
-            item_index: index,
-            volume: 50,
-          });
+            if (! sound.audio) {
+              sound.loading = true;
+
+              const { data } = await supabase.from('audios').select().eq('name', sound.name)
+
+              sound.audio = new Audio(data[0].audio_path);
+              sound.audio.volume = 50 / 600;
+
+              return sound.audio.play().then(() => sound.loading = false);
+            }
+
+            return sound.audio.play();
+          }
+
+          sound.selected = false;
+
+          return sound.audio.pause();
         }
+      },
 
-        return this.selected_sounds.splice(indexInArray, 1);
+      changeVolume(event, sound) {
+        sound.audio.volume = event.target.value / 600;
       },
 
       iconSelected(index) {
@@ -177,16 +198,24 @@ import { shallowRef } from 'vue'
         }
       },
 
-      shouldShowVolume(index) {
-        return this.button_on_hover === index && this.iconSelected(index)
+      shouldShowVolume(index, sound) {
+        return this.button_on_hover === index && sound.selected && ! sound.loading;
       },
+
+      getSoundIcon(sound) {
+        if (sound.loading) {
+          return Loader;
+        }
+
+        return sound.icon;
+      }
     }
   }
 </script>
 
 <style scoped>
   .wrapper {
-    width: 320px;
+    width: 240px;
     padding: 12px;
   }
 
@@ -227,7 +256,7 @@ import { shallowRef } from 'vue'
   }
 
   .buttons-container {
-    grid-template-columns: repeat(6,minmax(0,1fr));
+    grid-template-columns: repeat(4,minmax(0,1fr));
     grid-gap: 8px;
     display: grid;
     width: 100%;
@@ -238,7 +267,7 @@ import { shallowRef } from 'vue'
     z-index: 5;
   }
 
-  .sound-button-wrapper {
+  .centralized {
     width: 100%;
     height: 100%;
     display: flex;

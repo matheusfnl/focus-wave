@@ -15,6 +15,9 @@
     "vue-loader": "^16.8.3"
   },
   "dependencies": {
-    "cross-env": "^7.0.3"
+    "@supabase/supabase-js": "^2.38.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "mix-env-file": "^0.1.1"
   }
 }
