@@ -1,0 +1,13 @@
+{
+  "name": "Simple Background Sounds",
+  "version": "1.0.0",
+  "description": "Run background sounds",
+  "manifest_version": 3,
+  "permissions": [],
+  "background": {
+    "service_worker": "js/background.js"
+   },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
