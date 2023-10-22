@@ -1,9 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;300;400;500;600;700&display=swap');
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Playpen Sans', cursive;
+  background-color: var(--background-color);
+  color: var(--text-1-color);
 }
 
-.wrapper {
-  width: 480px;
+a {
+  text-decoration: none;
+  color: var(--text-1-color);
+  font-weight: bold;
 }
+
+a:hover { text-decoration: underline; }
+
+:root {
+  --background-color: #36353d;
+  --text-0-color: #5c5a67;
+  --text-1-color: #d8d5e7;
+  --text-2-color: #b2b0be;
+
+  // inverse
+  --background-inverse-color: #e5e2f7;
+  --text-1-inverse-color: #46454c;
+  --text-2-inverse-color: #64626c;
+}
+
+.dark-theme {
+  --background-color: #e5e2f7;
+  --text-0-color: #b8b5c7;
+  --text-1-color: #46454c;
+  --text-2-color: #64626c;
+
+  // inverse
+  --background-inverse-color: #36353d;
+  --text-1-inverse-color: #d8d5e7;
+  --text-2-inverse-color: #b2b0be;
+}
+
+input[type="range"] { accent-color: var(--text-1-color); }

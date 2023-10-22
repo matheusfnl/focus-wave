@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Run background sounds",
   "manifest_version": 3,
-  "permissions": [],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "audioCapture"
+  ],
   "background": {
-    "service_worker": "js/background.js"
+    "service_worker": "js/background.js",
+    "persistent": true
    },
   "action": {
     "default_popup": "popup.html"
