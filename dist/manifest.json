@@ -2,17 +2,15 @@
   "name": "Simple Background Sounds",
   "version": "1.0.0",
   "description": "Run background sounds",
-  "manifest_version": 3,
+  "manifest_version": 2,
   "permissions": [
     "activeTab",
-    "storage",
-    "audioCapture"
+    "storage"
   ],
   "background": {
-    "service_worker": "js/background.js",
-    "persistent": true
+    "scripts": ["js/background.js"]
    },
-  "action": {
+  "browser_action": {
     "default_popup": "popup.html"
   }
 }

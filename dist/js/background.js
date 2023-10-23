@@ -7,7 +7,13 @@
   \*********************************/
 /***/ (() => {
 
-
+chrome.runtime.onMessage.addListener(function (request) {
+  if (request.message === 'play') {
+    var audio = new Audio(request.url);
+    audio.volume = 0.02;
+    audio.play();
+  }
+});
 
 /***/ }),
 

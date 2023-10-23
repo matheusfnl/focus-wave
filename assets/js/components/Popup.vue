@@ -74,6 +74,7 @@
   import SunIcon from './icons/Sun.vue'
   import MoonIcon from './icons/Moon.vue'
   import CloudRainIcon from './icons/CloudRain.vue'
+  import GitHubIcon from './icons/GitHubIcon.vue'
   import CloudThunderIcon from './icons/CloudThunder.vue'
   import DropsIcon from './icons/Drops.vue'
   import WindIcon from './icons/Wind.vue'
@@ -90,7 +91,6 @@
   import ShipIcon from './icons/Ship.vue'
   import TentIcon from './icons/Tent.vue'
   import ToriiIcon from './icons/Torii.vue'
-  import GitHubIcon from './icons/GitHub.vue'
   import UserIcon from './icons/User.vue'
 
 
