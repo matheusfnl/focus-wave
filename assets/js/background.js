@@ -1,7 +1,12 @@
 let sounds = [];
-let dark_theme = true;
+let dark_theme = false;
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onStartup.addListener(function () {
+  chrome.storage.local.set({ 'sounds': [] });
+  chrome.storage.local.set({ 'dark_theme': false });
+});
+
+chrome.runtime.onMessage.addListener(function (request) {
   if (request.action === 'playAudio') {
     const index = sounds.push({
       name: request.audio_data.name,

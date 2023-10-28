@@ -19,16 +19,6 @@ a:hover {
 }
 
 :root {
-  --background-color: #36353d;
-  --text-0-color: #5c5a67;
-  --text-1-color: #d8d5e7;
-  --text-2-color: #b2b0be;
-  --background-inverse-color: #e5e2f7;
-  --text-1-inverse-color: #46454c;
-  --text-2-inverse-color: #64626c;
-}
-
-.dark-theme {
   --background-color: #e5e2f7;
   --text-0-color: #b8b5c7;
   --text-1-color: #46454c;
@@ -36,6 +26,16 @@ a:hover {
   --background-inverse-color: #36353d;
   --text-1-inverse-color: #d8d5e7;
   --text-2-inverse-color: #b2b0be;
+}
+
+.dark-theme {
+  --background-color: #36353d;
+  --text-0-color: #5c5a67;
+  --text-1-color: #d8d5e7;
+  --text-2-color: #b2b0be;
+  --background-inverse-color: #e5e2f7;
+  --text-1-inverse-color: #46454c;
+  --text-2-inverse-color: #64626c;
 }
 
 input[type=range] {
