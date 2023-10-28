@@ -108,24 +108,24 @@
         dark_theme: false,
         button_on_hover: null,
         sounds: [
-          { icon: shallowRef(CloudRainIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(CloudThunderIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(DropsIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(WindIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(BeachIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(JollyRogerIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(TreeIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(LeafIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(CampfireIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(CaveIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(MoonIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(CoffeIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(TrainIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(PlaneIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(SchoolIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(ShipIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(TentIcon), selected: false, loading: false, audio: null, },
-          { icon: shallowRef(ToriiIcon), selected: false, loading: false, audio: null, name: 'tokyo' },
+          { icon: shallowRef(CloudRainIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(CloudThunderIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(DropsIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(WindIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(BeachIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(JollyRogerIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(TreeIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(LeafIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(CampfireIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(CaveIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(MoonIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(CoffeIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(TrainIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(PlaneIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(SchoolIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(ShipIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(TentIcon), selected: false, loading: false, src: null, },
+          { icon: shallowRef(ToriiIcon), selected: false, loading: false, src: null, name: 'tokyo' },
         ]
       }
     },
@@ -138,6 +138,22 @@
 
         return SunIcon;
       },
+    },
+
+    created() {
+      chrome.storage.local.get('sounds', (data) => {
+        if (data.sounds) {
+          console.log('chegou aqui')
+          console.log(data.sounds)
+
+          data.sounds.forEach(previous_sound => {
+            const sound = this.sounds.find(actual_sound => actual_sound.name === previous_sound.name);
+            sound.src = previous_sound.src;
+            sound.volume = previous_sound.volume * 600;
+            sound.selected = previous_sound.playing;
+          });
+        }
+      });
     },
 
     methods: {
@@ -160,28 +176,36 @@
           if (! sound.selected) {
              sound.selected = true;
 
-            if (! sound.audio) {
+            if (! sound.src) {
               sound.loading = true;
-
               const { data } = await supabase.from('audios').select().eq('name', sound.name)
+              sound.loading = false;
+              sound.src = data[0].audio_path;
+              sound.volume = 50;
 
-              sound.audio = new Audio(data[0].audio_path);
-              sound.audio.volume = 50 / 600;
-
-              return sound.audio.play().then(() => sound.loading = false);
+              return chrome.runtime.sendMessage({ action: 'playAudio', audio_data: {
+                name:sound.name,
+                volume: sound.volume,
+                src: data[0].audio_path,
+              } });
             }
 
-            return sound.audio.play();
+            return chrome.runtime.sendMessage({ action: 'unpauseAudio', audio_data: { name:sound.name } });
           }
 
           sound.selected = false;
 
-          return sound.audio.pause();
+          return chrome.runtime.sendMessage({ action: 'pauseAudio', audio_data: { name:sound.name } });
         }
       },
 
       changeVolume(event, sound) {
-        sound.audio.volume = event.target.value / 600;
+        sound.volume = event.target.value;
+
+        return chrome.runtime.sendMessage({ action: 'changeVolume', audio_data: {
+          name: sound.name,
+          volume: sound.volume,
+        }});
       },
 
       iconSelected(index) {

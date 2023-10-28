@@ -7,12 +7,44 @@
   \*********************************/
 /***/ (() => {
 
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request.message === 'play') {
-    var audio = new Audio(request.url);
-    audio.volume = 0.02;
-    audio.play();
+var sounds = [];
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === 'playAudio') {
+    var index = sounds.push({
+      name: request.audio_data.name,
+      volume: request.audio_data.volume,
+      src: request.audio_data.src,
+      playing: true,
+      audio: new Audio(request.audio_data.src)
+    });
+    var current_sound = sounds[index - 1];
+    current_sound.audio.volume = current_sound.volume / 600;
+    current_sound.audio.play();
   }
+  if (request.action === 'unpauseAudio') {
+    var _current_sound = sounds.find(function (sound) {
+      return sound.name === request.audio_data.name;
+    });
+    _current_sound.audio.play();
+    _current_sound.playing = true;
+  }
+  if (request.action === 'pauseAudio') {
+    var _current_sound2 = sounds.find(function (sound) {
+      return sound.name === request.audio_data.name;
+    });
+    _current_sound2.audio.pause();
+    _current_sound2.playing = false;
+  }
+  if (request.action === 'changeVolume') {
+    var _current_sound3 = sounds.find(function (sound) {
+      return sound.name === request.audio_data.name;
+    });
+    _current_sound3.volume = request.audio_data.volume / 600;
+    _current_sound3.audio.volume = _current_sound3.volume;
+  }
+  chrome.storage.local.set({
+    'sounds': sounds
+  });
 });
 
 /***/ }),

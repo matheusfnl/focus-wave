@@ -7721,92 +7721,92 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_CloudRain_vue__WEBPACK_IMPORTED_MODULE_7__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_CloudThunder_vue__WEBPACK_IMPORTED_MODULE_9__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Drops_vue__WEBPACK_IMPORTED_MODULE_10__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Wind_vue__WEBPACK_IMPORTED_MODULE_11__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Beach_vue__WEBPACK_IMPORTED_MODULE_12__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_JollyRoger_vue__WEBPACK_IMPORTED_MODULE_13__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Tree_vue__WEBPACK_IMPORTED_MODULE_14__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Leaf_vue__WEBPACK_IMPORTED_MODULE_15__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Campfire_vue__WEBPACK_IMPORTED_MODULE_16__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Cave_vue__WEBPACK_IMPORTED_MODULE_17__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Moon_vue__WEBPACK_IMPORTED_MODULE_6__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Coffe_vue__WEBPACK_IMPORTED_MODULE_18__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Train_vue__WEBPACK_IMPORTED_MODULE_19__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Plane_vue__WEBPACK_IMPORTED_MODULE_20__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_School_vue__WEBPACK_IMPORTED_MODULE_21__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Ship_vue__WEBPACK_IMPORTED_MODULE_22__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Tent_vue__WEBPACK_IMPORTED_MODULE_23__["default"]),
         selected: false,
         loading: false,
-        audio: null
+        src: null
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Torii_vue__WEBPACK_IMPORTED_MODULE_24__["default"]),
         selected: false,
         loading: false,
-        audio: null,
+        src: null,
         name: 'tokyo'
       }]
     };
@@ -7818,6 +7818,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
       return _icons_Sun_vue__WEBPACK_IMPORTED_MODULE_5__["default"];
     }
+  },
+  created: function created() {
+    var _this = this;
+    chrome.storage.local.get('sounds', function (data) {
+      if (data.sounds) {
+        console.log('chegou aqui');
+        console.log(data.sounds);
+        data.sounds.forEach(function (previous_sound) {
+          var sound = _this.sounds.find(function (actual_sound) {
+            return actual_sound.name === previous_sound.name;
+          });
+          sound.src = previous_sound.src;
+          sound.volume = previous_sound.volume * 600;
+          sound.selected = previous_sound.playing;
+        });
+      }
+    });
   },
   methods: {
     playSound: function playSound() {},
@@ -7835,16 +7852,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) switch (_context.prev = _context.next) {
             case 0:
               if (sound.loading) {
-                _context.next = 15;
+                _context.next = 16;
                 break;
               }
               if (sound.selected) {
-                _context.next = 13;
+                _context.next = 14;
                 break;
               }
               sound.selected = true;
-              if (sound.audio) {
-                _context.next = 12;
+              if (sound.src) {
+                _context.next = 13;
                 break;
               }
               sound.loading = true;
@@ -7853,17 +7870,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 7:
               _yield$supabase$from$ = _context.sent;
               data = _yield$supabase$from$.data;
-              sound.audio = new Audio(data[0].audio_path);
-              sound.audio.volume = 50 / 600;
-              return _context.abrupt("return", sound.audio.play().then(function () {
-                return sound.loading = false;
+              sound.loading = false;
+              sound.src = data[0].audio_path;
+              sound.volume = 50;
+              return _context.abrupt("return", chrome.runtime.sendMessage({
+                action: 'playAudio',
+                audio_data: {
+                  name: sound.name,
+                  volume: sound.volume,
+                  src: data[0].audio_path
+                }
               }));
-            case 12:
-              return _context.abrupt("return", sound.audio.play());
             case 13:
+              return _context.abrupt("return", chrome.runtime.sendMessage({
+                action: 'unpauseAudio',
+                audio_data: {
+                  name: sound.name
+                }
+              }));
+            case 14:
               sound.selected = false;
-              return _context.abrupt("return", sound.audio.pause());
-            case 15:
+              return _context.abrupt("return", chrome.runtime.sendMessage({
+                action: 'pauseAudio',
+                audio_data: {
+                  name: sound.name
+                }
+              }));
+            case 16:
             case "end":
               return _context.stop();
           }
@@ -7871,7 +7904,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     changeVolume: function changeVolume(event, sound) {
-      sound.audio.volume = event.target.value / 600;
+      sound.volume = event.target.value;
+      return chrome.runtime.sendMessage({
+        action: 'changeVolume',
+        audio_data: {
+          name: sound.name,
+          volume: sound.volume
+        }
+      });
     },
     iconSelected: function iconSelected(index) {
       return this.selected_sounds.map(function (e) {
