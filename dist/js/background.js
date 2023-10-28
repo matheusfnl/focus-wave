@@ -8,6 +8,7 @@
 /***/ (() => {
 
 var sounds = [];
+var dark_theme = true;
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === 'playAudio') {
     var index = sounds.push({
@@ -42,8 +43,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     _current_sound3.volume = request.audio_data.volume / 600;
     _current_sound3.audio.volume = _current_sound3.volume;
   }
+  if (request.action === 'changeTheme') {
+    dark_theme = request.dark_theme;
+  }
   chrome.storage.local.set({
     'sounds': sounds
+  });
+  chrome.storage.local.set({
+    'dark_theme': dark_theme
   });
 });
 

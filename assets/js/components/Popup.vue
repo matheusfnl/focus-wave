@@ -141,11 +141,15 @@
     },
 
     created() {
+      chrome.storage.local.get('dark_theme', (data) => {
+        if (data.dark_theme) {
+          this.dark_theme = data.dark_theme;
+          this.setTheme();
+        }
+      });
+
       chrome.storage.local.get('sounds', (data) => {
         if (data.sounds) {
-          console.log('chegou aqui')
-          console.log(data.sounds)
-
           data.sounds.forEach(previous_sound => {
             const sound = this.sounds.find(actual_sound => actual_sound.name === previous_sound.name);
             sound.src = previous_sound.src;
@@ -157,18 +161,14 @@
     },
 
     methods: {
-      playSound() {
-
-      },
-
       toggleTheme() {
         this.dark_theme = ! this.dark_theme;
+        chrome.runtime.sendMessage({ action: 'changeTheme', dark_theme: this.dark_theme });
+        this.setTheme();
+      },
 
-        if (this.dark_theme) {
-          return document.body.className = 'dark-theme'
-        }
-
-        document.body.className = '';
+      setTheme() {
+        document.body.className = this.dark_theme ? 'dark-theme' : ''
       },
 
       async setSelected(sound) {

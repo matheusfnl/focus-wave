@@ -7821,10 +7821,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   created: function created() {
     var _this = this;
+    chrome.storage.local.get('dark_theme', function (data) {
+      if (data.dark_theme) {
+        _this.dark_theme = data.dark_theme;
+        _this.setTheme();
+      }
+    });
     chrome.storage.local.get('sounds', function (data) {
       if (data.sounds) {
-        console.log('chegou aqui');
-        console.log(data.sounds);
         data.sounds.forEach(function (previous_sound) {
           var sound = _this.sounds.find(function (actual_sound) {
             return actual_sound.name === previous_sound.name;
@@ -7837,13 +7841,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
-    playSound: function playSound() {},
     toggleTheme: function toggleTheme() {
       this.dark_theme = !this.dark_theme;
-      if (this.dark_theme) {
-        return document.body.className = 'dark-theme';
-      }
-      document.body.className = '';
+      chrome.runtime.sendMessage({
+        action: 'changeTheme',
+        dark_theme: this.dark_theme
+      });
+      this.setTheme();
+    },
+    setTheme: function setTheme() {
+      document.body.className = this.dark_theme ? 'dark-theme' : '';
     },
     setSelected: function setSelected(sound) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
