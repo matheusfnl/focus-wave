@@ -7721,87 +7721,104 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_CloudRain_vue__WEBPACK_IMPORTED_MODULE_7__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'rain'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_CloudThunder_vue__WEBPACK_IMPORTED_MODULE_9__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'rain_3'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Drops_vue__WEBPACK_IMPORTED_MODULE_10__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'rain_2'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Wind_vue__WEBPACK_IMPORTED_MODULE_11__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'wind'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Beach_vue__WEBPACK_IMPORTED_MODULE_12__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'tropical'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_JollyRoger_vue__WEBPACK_IMPORTED_MODULE_13__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'pirate'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Tree_vue__WEBPACK_IMPORTED_MODULE_14__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'nature'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Leaf_vue__WEBPACK_IMPORTED_MODULE_15__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'leaf'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Campfire_vue__WEBPACK_IMPORTED_MODULE_16__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'campfire'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Cave_vue__WEBPACK_IMPORTED_MODULE_17__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'cave'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Moon_vue__WEBPACK_IMPORTED_MODULE_6__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'night'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Coffe_vue__WEBPACK_IMPORTED_MODULE_18__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'coffe'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Train_vue__WEBPACK_IMPORTED_MODULE_19__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'train'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Plane_vue__WEBPACK_IMPORTED_MODULE_20__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'plane'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_School_vue__WEBPACK_IMPORTED_MODULE_21__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'school'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Ship_vue__WEBPACK_IMPORTED_MODULE_22__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'cruise'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Tent_vue__WEBPACK_IMPORTED_MODULE_23__["default"]),
         selected: false,
         loading: false,
-        src: null
+        src: null,
+        name: 'tent'
       }, {
         icon: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_icons_Torii_vue__WEBPACK_IMPORTED_MODULE_24__["default"]),
         selected: false,
