@@ -341,6 +341,7 @@
   .links-container {
     display: flex;
     gap: 4px;
+    font-size: 12px;
   }
 
   .links-container svg { width: 18px; }
